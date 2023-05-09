@@ -5,13 +5,15 @@ import com.example.weatherapp.data.repository.WeatherRepository
 import com.example.weatherapp.util.Constant
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import javax.inject.Singleton
 
 @Module
-@Singleton
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
