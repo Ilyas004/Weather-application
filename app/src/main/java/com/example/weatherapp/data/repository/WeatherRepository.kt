@@ -1,16 +1,28 @@
 package com.example.weatherapp.data.repository
 
-import androidx.lifecycle.LiveData
-import com.example.weatherapp.data.model.Weather
 import com.example.weatherapp.data.remote.WeatherApi
-import retrofit2.Response
+import com.example.weatherapp.data.remote.dto.Weather
+import com.example.weatherapp.util.Constant
+import com.example.weatherapp.util.Resource
 import javax.inject.Inject
 
 class WeatherRepository @Inject constructor(
     private val api: WeatherApi
 ) {
 
-    suspend fun getForecast(key: String): Response<Weather> {
-        return api.getForecast(key)
+    suspend fun getWeatherByLocation(location: String): Resource<Weather> {
+        return try {
+            Resource.Success(
+                data = api.getForecastByLocation(Constant.KEY, location)
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Error(e.message ?: "An unknown error occurred.")
+        }
+
+    }
+
+    suspend fun getWeatherByNameCity(nameCity: String): Resource<Weather> {
+        return api.getForecastByNameCity(Constant.KEY, nameCity)
     }
 }

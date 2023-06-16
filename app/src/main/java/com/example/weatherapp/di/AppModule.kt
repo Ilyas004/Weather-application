@@ -1,8 +1,12 @@
 package com.example.weatherapp.di
 
+import android.app.Application
+import com.example.weatherapp.data.location.DefaultLocationTracker
 import com.example.weatherapp.data.remote.WeatherApi
 import com.example.weatherapp.data.repository.WeatherRepository
 import com.example.weatherapp.util.Constant
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +20,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+
     @Provides
     @Singleton
     fun provideWeatherApi(): WeatherApi {
@@ -23,7 +29,7 @@ object AppModule {
             .baseUrl(Constant.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(WeatherApi::class.java)
+            .create()
     }
 
     @Provides
@@ -31,4 +37,13 @@ object AppModule {
     fun provideWeatherRepository(api: WeatherApi): WeatherRepository {
         return WeatherRepository(api)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideFusedLocationProviderClient(app: Application): FusedLocationProviderClient {
+        return LocationServices.getFusedLocationProviderClient(app)
+    }
+
+
 }
