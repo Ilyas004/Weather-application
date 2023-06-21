@@ -29,7 +29,7 @@ fun WeatherCard(
     modifier: Modifier = Modifier
     ) {
 
-    state.weatherInfo?.current?.let { data ->
+    state.weatherInfo?.let { data ->
         Card(
             backgroundColor = backgroundColor,
             shape = RoundedCornerShape(10.dp),
@@ -42,7 +42,7 @@ fun WeatherCard(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Сегодня ${data.last_updated.format(
+                    text = "Сегодня ${data.current.last_updated.format(
                         DateTimeFormatter.ofPattern("HH:mm")
                         )
                     }",
@@ -50,20 +50,26 @@ fun WeatherCard(
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = data.location.name,
+                    fontSize = 40.sp,
+                    color = Color.White
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 AsyncImage(
-                    model = "https:${data.condition.icon}",
+                    model = "https:${data.current.condition.icon}",
                     contentDescription = null,
                     modifier = Modifier.size(100.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "${data.temp_c}°C",
+                    text = "${data.current.temp_c}°C",
                     fontSize = 50.sp,
                     color = Color.White
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = data.condition.text,
+                    text = data.current.condition.text,
                     fontSize = 20.sp,
                     color = Color.White
                 )
